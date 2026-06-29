@@ -1,4 +1,4 @@
-use bevy::{ prelude::*, window::PrimaryWindow };
+use bevy::{ math::VectorSpace, platform::cell, prelude::*, window::PrimaryWindow };
 use crate::grid::*;
 
 impl Grid {
@@ -8,25 +8,48 @@ impl Grid {
             size,
             cell_data: Cell { size: Vec2::ZERO },
             data: vec![vec![0; x as usize]; y as usize],
+            pos: Vec2::ZERO,
         }
     }
+
     pub fn build(&mut self, window_size: Vec2<>) {
-        let (window_width, window_height) = (window_size[0], window_size[1]);
-        let (x, y) = (self.size.x, self.size.y);
+        let (x, y) = (self.size.x as f32, self.size.y as f32);
+
+        let cell_x = window_size.x / x;
+        let cell_y = window_size.y / y;
+
         self.cell_data = Cell {
-            size: Vec2::new(window_width / (x as f32), window_height / (y as f32)),
+            size: Vec2::new(cell_x, cell_y),
         };
+
+        self.pos = Vec2::new(
+            -window_size.x / 2.0 + cell_x / 2.0,
+            -window_size.y / 2.0 + cell_y / 2.0
+        );
     }
+
     pub fn draw(&self, gizmos: &mut Gizmos) {
         let (cell_x, cell_y) = (self.cell_data.size.x, self.cell_data.size.y);
         for i in 0..self.size.x {
             for j in 0..self.size.y {
                 gizmos.rect_2d(
-                    Isometry2d::from_xy((i as f32) * cell_x, (j as f32) * cell_y),
+                    Isometry2d::from_xy(
+                        self.pos.x + cell_x * (i as f32),
+                        self.pos.y + cell_y * (j as f32)
+                    ),
                     Vec2::new(cell_x, cell_y),
                     Color::WHITE
                 );
             }
         }
+    }
+    pub fn update_grid(&mut self, window_size: Vec2<>) {
+        let (x, y) = (self.size.x as f32, self.size.y as f32);
+        let cell_x = window_size.x / x;
+        let cell_y = window_size.y / y;
+        self.pos = Vec2::new(
+            -window_size.x / 2.0 + cell_x / 2.0,
+            -window_size.y / 2.0 + cell_y / 2.0
+        );
     }
 }

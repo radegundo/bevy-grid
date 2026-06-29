@@ -5,6 +5,7 @@ pub struct Grid {
     pub size: GridSize,
     pub cell_data: Cell,
     pub data: Vec<Vec<i32>>,
+    pub pos: Vec2<>,
 }
 
 pub struct GridSize {
