@@ -3,13 +3,6 @@
 version = 4
 
 [[package]]
-name = "Bevy-grid-builder"
-version = "0.1.0"
-dependencies = [
- "bevy",
-]
-
-[[package]]
 name = "ab_glyph"
 version = "0.2.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -901,6 +894,13 @@ dependencies = [
  "thiserror 2.0.18",
  "tracing",
  "wgpu-types",
+]
+
+[[package]]
+name = "bevy_grid"
+version = "0.1.0"
+dependencies = [
+ "bevy",
 ]
 
 [[package]]
