@@ -52,4 +52,27 @@ impl Grid {
             -window_size.y / 2.0 + cell_y / 2.0
         );
     }
+    pub fn get_grid_coords(&self, world_coords: Vec3<>) -> Option<Vec3<>> {
+        let pos = Vec3::new(
+            (
+                ((world_coords.x as f32) - (self.pos.x - self.cell_data.size.x / 2.0)) /
+                self.cell_data.size.x
+            ).floor(),
+            (
+                ((world_coords.y as f32) - (self.pos.y - self.cell_data.size.y / 2.0)) /
+                self.cell_data.size.y
+            ).floor(),
+            0.0
+        );
+        if
+            pos.x > (self.size.x as f32) ||
+            pos.x < 0.0 ||
+            pos.y > (self.size.y as f32) ||
+            pos.y < 0.0
+        {
+            return None;
+        } else {
+            Some(pos)
+        }
+    }
 }
