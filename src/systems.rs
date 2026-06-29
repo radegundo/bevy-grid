@@ -65,9 +65,9 @@ impl Grid {
             0.0
         );
         if
-            pos.x > (self.size.x as f32) ||
+            pos.x > (self.size.x as f32) - 1.0 ||
             pos.x < 0.0 ||
-            pos.y > (self.size.y as f32) ||
+            pos.y > (self.size.y as f32) - 1.0 ||
             pos.y < 0.0
         {
             return None;
